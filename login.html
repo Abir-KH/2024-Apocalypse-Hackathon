@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body id="color">
+    <ul>
+        <li><span onclick="openNav()"></span></li>
+        <li><a href="#">zombiedating</a></li>
+        <li><span style="font-size:10vh;" onclick="openMenu()"></span></li>
+    </ul>
+
+    <section>
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="sign-up-form" onsubmit="return validateForm(event)">
+                <div class="form-group">
+                    <label for="user-email">Enter your email</label>
+                    <input type="email" id="user-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" id="sign-up-button" >Sign up</button>
+            </form>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
