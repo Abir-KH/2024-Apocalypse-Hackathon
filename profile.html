@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="./style.css">
+  <script src="script.js"></script>
+</head>
+<body id="color">
+  <ul>
+    <li><span onclick="openNav()">&#9776;</span></li>
+    <li><a href="index.html" style="font-size:10vh">ZomBae</a></li>
+    <li><span style="font-size:10vh;" onclick="openMenu()"></span></li>
+  </ul>
+  <div id="mySidenav" class="sidenav"> 
+    <a href="javascript:void(0)" class="closebtn" style="font-size: 10vh;" onclick="closeNav()">&times;</a>
+    <a href="profile.html">Profile</a>
+    <a href="settings.html">Settings</a>
+    <a href="login.html">Login</a>
+  </div>
+  
+  <div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+    <div class="overlay-content">
+      <center>
+        <h1>Messages</h1> <!-- Added title -->
+        <div class="chat-container">
+          <div id="conversation" class="conversation"></div>
+          <div class="input-container">
+            <textarea id="input" placeholder="Type a message..."></textarea>
+          </div>
+        </div>
+      </center>
+    </div>
+  </div>
+    <div id="profile-info">
+        <div style="color: green">
+            <h2>Profile Information</h2>
+            <p><strong>Username:</strong> <p id="username"></p></p>
+            <p><strong>Email:</strong> <p id="email"></p></p>
+            <p><strong>Description:</strong> <p id="description"></p></p>
+            <p><strong>Profile Image:</strong> <img id="profile-image" src="" alt="Profile Image"></p>
+        </div>
+        
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Retrieve saved data from local storage
+            var savedData = localStorage.getItem('savedData');
+            if (savedData) {
+                savedData = JSON.parse(savedData);
+                
+                // Display profile information
+                document.getElementById("username").textContent = savedData.username || "";
+                document.getElementById("email").textContent = savedData.email || "";
+                document.getElementById("description").textContent = savedData.description || "";
+                if (savedData.image) {
+                    document.getElementById("profile-image").src = savedData.image;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
