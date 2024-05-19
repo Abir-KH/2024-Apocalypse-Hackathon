@@ -10,6 +10,7 @@ function openNav() {
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
 }
+
 function openMenu() {
   document.getElementById("myNav").style.height = "100%";
 }
@@ -33,11 +34,12 @@ const urls = [
 ];
 
 // variables
-let cardCount = 0;
-
+let cardIndex = 0;
+let shuffledUrls = shuffleArray(urls);
 
 // functions
 function color() {
+  document.body.style.pointerEvents = 'none'; // Disable pointer events
   if (num == 0) {
     document.getElementById("demo").innerHTML = ("It's a  MATCH");
     document.getElementById("demo").style.opacity = "0";
@@ -57,41 +59,58 @@ function color() {
     document.getElementById("swiper").style.transition = "all 2s";
     num = 0;
   }
+  setTimeout(() => {
+    document.body.style.pointerEvents = ''; // Enable pointer events after animation ends
+  }, 2000);
 }
-function openlink () {
+
+function openlink() {
   alert("You are successfully signed in!");
   window.location.href = "index.html"; // Redirect to index.html
-  return true; 
+  return true;
 }
 
 function appendNewCard() {
-  const card = new Card({
-    imageUrl: urls[cardCount % 5],
-    onDismiss: appendNewCard,
-    onLike: () => {
-      like.style.animationPlayState = 'running';
-      like.classList.toggle('trigger');
-      console.log("like");
-      ranNum = Math.floor(Math.random() * 10);
-      console.log(ranNum);
-      if (ranNum == 1) {
-        setTimeout(color, 200);
-        setTimeout(color, 2000);
+  const image = new Image();
+  image.src = shuffledUrls[cardIndex];
+  image.onload = () => {
+    const card = new Card({
+      imageUrl: shuffledUrls[cardIndex],
+      onDismiss: appendNewCard,
+      onLike: () => {
+        like.style.animationPlayState = 'running';
+        like.classList.toggle('trigger');
+        console.log("like");
+        ranNum = Math.floor(Math.random() * 10);
+        console.log(ranNum);
+        if (ranNum == 1) {
+          setTimeout(color, 200);
+          setTimeout(color, 2000);
+        }
+      },
+      onDislike: () => {
+        dislike.style.animationPlayState = 'running';
+        dislike.classList.toggle('trigger');
+        console.log("dislike");
       }
-    },
-    onDislike: () => {
-      dislike.style.animationPlayState = 'running';
-      dislike.classList.toggle('trigger');
-      console.log("dislike");
-    }
-  });
-  swiper.append(card.element);
-  cardCount++;
+    });
+    swiper.append(card.element);
+    cardIndex = (cardIndex + 1) % urls.length;
 
-  const cards = swiper.querySelectorAll('.card:not(.dismissing)');
-  cards.forEach((card, index) => {
-    card.style.setProperty('--i', index);
-  });
+    const cards = swiper.querySelectorAll('.card:not(.dismissing)');
+    cards.forEach((card, index) => {
+      card.style.setProperty('--i', index);
+    });
+  };
+}
+
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }
 
 // first 5 cards
